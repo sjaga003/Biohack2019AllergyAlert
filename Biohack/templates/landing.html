@@ -1,0 +1,69 @@
+<head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+</head>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<br>
+<br>
+<div class="container-fluid">
+<div class="col-md-12">
+	<h1 class="display-4"> Allergy Alert <i style="color:red" class="fas fa-hamburger"></i></h1>
+	<br>
+</div>
+<div style="margin-left: 4.7em;margin-right: 4.7em; text-align: center;" class="">
+		<h5>
+{% for allergy in allergyList %}
+
+	<span style="margin-bottom: 0.1em" class="badge badge-danger">
+		<a style="color: white;text-decoration: none;" href="/removeBadge/{{ allergy }}">
+		{{ allergy }}
+	</a>
+	</span>
+
+{% endfor %}</h5></div>
+<br>
+<div class="text-center col-sm-12">
+<form method="POST" action="/foodSearch">
+			<div class="input-group" style="display: block">
+				<input class="form-control-lg" type="form" name="foodInput"></input>
+				<span class="input-group-btn">
+					<input class="btn btn-outline-primary btn-lg" type="submit" name="foodSubmit" style="vertical-align: unset !important;" value="Search for a food item"></input>
+				</span>
+			</div>
+		</form>
+	</div>
+		<div  class="text-center col-sm-12">
+	<form method="POST" style="display: inline-block;" action="/allergyInput">
+		<input style="margin-left: 4.7em;" class="form-control-lg" type="form" name="allergyInput"></input>
+		<span class="input-group-btn">
+			<input class="btn btn-outline-danger btn-lg" type="submit" name="allergySubmit" style="vertical-align: unset !important;" value="Add an allergy"></input>
+		</span>
+	</form>
+	<form  method="POST" class="text-center" style="display: inline-block;" action="/allergyClear">
+		<input class="btn btn-outline-success btn-lg" type="submit" name="allergyClear" style="vertical-align: unset !important;" value="Clear Allergies"></input>
+	</form>
+</div>
+</div>
+
+</div>
+<div class="col-md-12 text-center">
+	{% for value, value2, hazard in data %}
+		<div class="accordion" id="accordion">
+			<div class="card">
+				<div class="card-header" id="heading{{ loop.index }}">
+					<h2 class="mb-0">
+					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{ loop.index }}" aria-expanded="true" aria-controls="collapse{{ loop.index }}" style="color: {{ hazard }}">
+					{{ value }}
+					</button>
+					</h2>
+				</div>
+				<div id="collapse{{ loop.index }}" class="collapse" aria-labelledby="heading{{ loop.index }}" data-parent="#accordion">
+					<div class="card-body">
+						<div id="item{{ loop.index }}">{{ value2 }}</div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
